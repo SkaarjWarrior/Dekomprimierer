@@ -1,0 +1,32 @@
+//Main loop
+      While (Index<image_end){
+         Status=icons[Index];
+         
+         if (Status>128){ //if we have a block of same color pixels
+            Status=Status-128;
+            Pixel=icons[Index+1];
+            for (i=0;i<Status;i++){
+            PixelColor=colors256[Pixel];
+            if (Pixel<255) {display_drawPixel(x_origin + x_cursor, y_origin + y_cursor,  PixelColor);}
+            //display_drawPixel(x_origin + x_cursor, y_origin + y_cursor,  PixelColor);
+         x_cursor++;
+         if (x_cursor==ImageWidth) {x_cursor=0; y_cursor++;}
+         }
+           Index=Index+2;
+           continue;
+         }
+        
+         if (Status>0 && Status<128){ //if we have a block of different color pixels, 
+               for (i=1;i<Status+1;i++){ //we iterate through eaqh byte of data
+                  Pixel=icons[Index+i]; 
+                  PixelColor=colors256[Pixel]; //get color
+                  if (Pixel<255) {display_drawPixel(x_origin + x_cursor, y_origin + y_cursor,  PixelColor);}
+         
+                  x_cursor++;
+                  if (x_cursor==ImageWidth) {x_cursor=0; y_cursor++;}
+         }
+            Index=Index+Status+1;
+         }
+         
+      }
+      } // End of function
